@@ -20,24 +20,44 @@ body {
   padding: 60px 40px;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  max-width: 400px;
+  max-width: 600px;
   width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.logo {
+.logo img{
   font-size: 60px;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+
+.heading{
+  font-size: 10;
+  margin-bottom: 15px;
+  align-self: center;
+  display: flex;
+  justify-content: center;
 }
 
 
 h1 {
   font-size: 2.5em;
   margin-bottom: 15px;
+  align-self: center;
 }
 
 
 .description {
-  font-size: 1.1em;
+  font-size: 30px;
   color: #333;
   margin-bottom: 30px;
 }
@@ -48,10 +68,13 @@ h1 {
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 30px;
+  width: auto;
+  height: auto;
+  border-radius: 50px;
 }
 
 .btn {
-  padding: 12px 20px;
+  padding: 12px 28px;
   border-radius: 8px;
   font-size: 1em;
   cursor: pointer;
