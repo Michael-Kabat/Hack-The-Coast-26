@@ -21,6 +21,9 @@ app.get("/", (req, res) => {
   res.send("API is running 🚀");
 });
 
+// Route Registration 
+app.use("/api/users", require("./routes/userRoutes"));
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
