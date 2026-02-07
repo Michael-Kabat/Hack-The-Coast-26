@@ -5,22 +5,23 @@ import { useState } from "react";
 import { StandaloneSignIn } from "./StandaloneSignIn";
 
 function App() {
+  const [user, setUser] = useState(null);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {!user && (
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+
+          <StandaloneSignIn onSignIn={(username) => setUser(username)} />
+        </header>
+      )}
+
+      {user && (
+        <main>
+          <h1>Welcome, {user} 🌱</h1>
+          <p>Your sustainability journey starts here.</p>
+        </main>
+      )}
     </div>
   );
 }
