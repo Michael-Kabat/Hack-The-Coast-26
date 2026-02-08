@@ -17,16 +17,17 @@ export function SignIn({ onSignIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Form submit handler
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (username.trim()) {
-      onSignIn({
-        username: username.trim(),
-        email: email.trim(),
-        password: password.trim(),
-        isRegister: false,
-      });
-    }
+    if (!username.trim() || !password.trim()) return;
+
+    onSignIn({
+      username: username.trim(),
+      email: email.trim(),
+      password: password.trim(),
+      isRegister: false, // change to true if you want registration
+    });
   };
 
   return (
@@ -115,10 +116,10 @@ export function SignIn({ onSignIn }) {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Username */}
                 <div className="space-y-2">
                   <Label htmlFor="username" className="flex items-center gap-2">
-                    <User className="size-4" />
-                    Username
+                    <User className="size-4" /> Username
                   </Label>
                   <Input
                     id="username"
@@ -131,11 +132,10 @@ export function SignIn({ onSignIn }) {
                   />
                 </div>
 
+                {/* Password */}
                 <div className="space-y-2">
                   <Label htmlFor="password" className="flex items-center gap-2">
-                    <Lock className="size-4" />{" "}
-                    {/* You can import Lock from lucide-react */}
-                    Password
+                    <Lock className="size-4" /> Password
                   </Label>
                   <Input
                     id="password"
@@ -148,10 +148,10 @@ export function SignIn({ onSignIn }) {
                   />
                 </div>
 
+                {/* Email */}
                 <div className="space-y-2">
                   <Label htmlFor="email" className="flex items-center gap-2">
-                    <Mail className="size-4" />
-                    Email (optional)
+                    <Mail className="size-4" /> Email (optional)
                   </Label>
                   <Input
                     id="email"
@@ -163,66 +163,15 @@ export function SignIn({ onSignIn }) {
                   />
                 </div>
 
+                {/* Submit Button */}
                 <Button
-                  type="button"
-                  onClick={() =>
-                    onSignIn({
-                      username: "GreenWarrior",
-                      email: "test@gmail.com",
-                      password: "test123",
-                      isRegister: true,
-                    })
-                  }
+                  type="submit"
                   className="w-full h-12 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-lg"
-                  disabled={!username.trim() || !password}
+                  disabled={!username.trim() || !password.trim()}
                 >
                   Start Your Journey
                   <ArrowRight className="ml-2 size-5" />
                 </Button>
-
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white px-2 text-gray-500">
-                      Quick start
-                    </span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() =>
-                      onSignIn({
-                        username: "GreenWarrior",
-                        email: "",
-                        password: "",
-                        isRegister: false,
-                      })
-                    }
-                  >
-                    🌿 Guest
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() =>
-                      onSignIn({
-                        username: "EcoHero",
-                        email: "",
-                        password: "",
-                        isRegister: false,
-                      })
-                    }
-                    className="h-11"
-                  >
-                    <span className="mr-2">⚡</span>
-                    Demo
-                  </Button>
-                </div>
               </form>
 
               <div className="mt-6 text-center text-sm text-gray-600">
@@ -230,29 +179,6 @@ export function SignIn({ onSignIn }) {
               </div>
             </CardContent>
           </Card>
-
-          {/* Stats Banner */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="mt-6 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 p-4 text-center text-white shadow-xl"
-          >
-            <div className="grid grid-cols-3 divide-x divide-white/20">
-              <div>
-                <div className="text-2xl font-bold">8.5K+</div>
-                <div className="text-sm opacity-90">Eco-Warriors</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold">125K+</div>
-                <div className="text-sm opacity-90">Missions Done</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold">2.3M</div>
-                <div className="text-sm opacity-90">CO₂ Saved</div>
-              </div>
-            </div>
-          </motion.div>
         </motion.div>
       </div>
     </div>
