@@ -287,11 +287,6 @@ body {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
 
-.from-green-50 {
-  --tw-gradient-from: #f0fdf4;
-  --tw-gradient-stops:
-    var(--tw-gradient-from), var(--tw-gradient-to, rgba(240, 253, 244, 0));
-}
 
 .via-emerald-50 {
   --tw-gradient-stops:
