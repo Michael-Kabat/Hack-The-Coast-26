@@ -165,7 +165,16 @@ export function SignIn({ onSignIn }) {
 
                 {/* Submit Button */}
                 <Button
-                  type="submit"
+                  type="button"
+                  onClick={() => {
+                    if (!username.trim() || !password.trim()) return;
+
+                    onSignIn({
+                      username: username.trim(),
+                      email: email.trim(),
+                      password: password.trim(),
+                    });
+                  }}
                   className="w-full h-12 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-lg"
                   disabled={!username.trim() || !password.trim()}
                 >

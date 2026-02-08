@@ -1,42 +1,81 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import { SignIn } from "./components/SignIn.jsx";
 import { UserStats } from "./components/UserStats.jsx";
-import { Tabs, TabsTrigger, TabsContent, TabsList } from "./components/ui/tabs.jsx";
+import {
+  Tabs,
+  TabsTrigger,
+  TabsContent,
+  TabsList,
+} from "./components/ui/tabs.jsx";
 import { Leaderboard } from "./components/Leaderboard.jsx";
 import { DailyMission } from "./components/DailyMission.jsx";
 
-// API helpers
 import {
   loginUser,
-  createUser,
+  registerUser,
   completeDaily,
+  getDailyPrompt,
   getLeaderboard,
-  getAllUsers,
+  getAggregates,
 } from "./api/users";
 
 function App() {
   const [user, setUser] = useState(null);
   const [leaderboard, setLeaderboard] = useState([]);
-  const [aggregateImpact, setAggregateImpact] = useState({
+  const [dailyPrompt, setDailyPrompt] = useState("");
+  const [aggregates, setAggregates] = useState({
     co2: 0,
     water: 0,
     waste: 0,
   });
+  const [totalUsers, setTotalUsers] = useState(0);
 
-  // Restore session on refresh
+  // Restore session
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
-  // Sign in handler
-  const handleSignIn = (userData) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+  // Fetch leaderboard and aggregates
+  const fetchData = async () => {
+    try {
+      const [lbRes, aggRes, promptRes] = await Promise.all([
+        getLeaderboard(),
+        getAggregates(),
+        getDailyPrompt(),
+      ]);
+      setLeaderboard(lbRes.data); // top 10 users
+      setAggregates(aggRes.data); // { co2, water, waste }
+      setDailyPrompt(promptRes.data.prompt); // daily prompt text
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (user) fetchData();
+  }, [user]);
+
+  // SignIn / Register handler
+  const handleSignIn = async (credentials) => {
+    try {
+      console.log(credentials);
+      const res = await registerUser(credentials);
+      setUser(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
+    } catch (err) {
+      console.error("Auth error:", err);
+      alert("Login failed. Check your email and password."); // optional UX
+    }
   };
 
   // Complete daily mission
@@ -46,22 +85,7 @@ function App() {
       const res = await completeDaily(user.id);
       setUser(res.data);
       localStorage.setItem("user", JSON.stringify(res.data));
-
-      // Refresh leaderboard
-      getLeaderboard().then((res) => setLeaderboard(res.data));
-
-      // Update aggregate impact
-      getAllUsers().then((res) => {
-        let co2 = 0,
-          water = 0,
-          waste = 0;
-        res.data.forEach((u) => {
-          co2 += u.impact?.co2 || 0;
-          water += u.impact?.water || 0;
-          waste += u.impact?.waste || 0;
-        });
-        setAggregateImpact({ co2, water, waste });
-      });
+      fetchData(); // refresh leaderboard and aggregates
     } catch (err) {
       console.error("Failed to complete mission:", err);
     }
@@ -70,13 +94,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Landing page */}
         <Route path="/" element={<LandingPage />} />
-
-        {/* SignIn page */}
         <Route path="/signin" element={<SignIn onSignIn={handleSignIn} />} />
 
-        {/* Home page - protected */}
         <Route
           path="/home"
           element={
@@ -87,6 +107,13 @@ function App() {
                     totalPoints={user.points}
                     streak={user.currentStreak}
                     completedMissions={user.totalCompleted}
+                    aggregates={aggregates} // show aggregate analysis
+                    userContribution={{
+                      co2: user.impact?.co2 || 0,
+                      water: user.impact?.water || 0,
+                      waste: user.impact?.waste || 0,
+                    }}
+                    totalUsers={totalUsers}
                   />
 
                   <Tabs defaultValue="mission" className="w-full">
@@ -99,11 +126,15 @@ function App() {
                       <DailyMission
                         onComplete={handleMissionComplete}
                         completedToday={user.completedToday}
+                        prompt={dailyPrompt}
                       />
                     </TabsContent>
 
                     <TabsContent value="leaderboard" className="space-y-4">
-                      <Leaderboard currentUserPoints={user.points} />
+                      <Leaderboard
+                        currentUserPoints={user.points}
+                        leaderboard={leaderboard}
+                      />
                     </TabsContent>
                   </Tabs>
                 </div>
@@ -114,10 +145,15 @@ function App() {
           }
         />
 
-        {/* Leaderboard page - protected */}
         <Route
           path="/leaderboard"
-          element={user ? <Leaderboard /> : <Navigate to="/signin" />}
+          element={
+            user ? (
+              <Leaderboard leaderboard={leaderboard} />
+            ) : (
+              <Navigate to="/signin" />
+            )
+          }
         />
       </Routes>
     </Router>
