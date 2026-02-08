@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // 🔹 ADDED
 import "./hp.css"; // our merged CSS file
 
 const challenges = [
@@ -63,6 +64,14 @@ export default function App() {
 
   const handleComplete = () => setCompleted(true);
 
+  // 🔹 ADDED: navigate hook
+  const navigate = useNavigate();
+
+  // 🔹 ADDED: function to go to Leadership page
+  const goToLeadership = () => {
+    navigate("/leadership");
+  };
+
   return (
     <div className="app">
       {/* Header */}
@@ -115,6 +124,11 @@ export default function App() {
             </div>
             <button onClick={handleComplete} disabled={completed}>
               {completed ? "Completed" : "Mark Complete"}
+            </button>
+
+            {/* 🔹 ADDED: Button to navigate to Leadership page */}
+            <button onClick={goToLeadership} style={{ marginTop: "10px" }}>
+              Go to Leadership Page
             </button>
           </div>
           <p className="global">
