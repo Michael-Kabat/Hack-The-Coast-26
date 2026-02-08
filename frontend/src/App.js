@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
 import LandingPage  from "./pages/LandingPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import SignIn from "./components/SignIn.jsx";
+import {SignIn} from "./components/SignIn.jsx";
+import {UserStats} from "./components/UserStats.jsx";
+import {Tabs} from "./components/ui/tabs.jsx";
+import {TabsTrigger} from "./components/ui/tabs.jsx";
+import {TabsContent} from "./components/ui/tabs.jsx";
+import {TabsList} from "./components/ui/tabs.jsx";
+import {Leaderboard} from "./components/Leaderboard.jsx";
+import {DailyMission} from "./components/DailyMission.jsx";
+
 
 // API helpers (example)
 import { completeDaily } from "./api/users";
@@ -46,9 +54,7 @@ function App() {
     <div className="App">
       {!user && (
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
 
-<<<<<<< HEAD
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="space-y-8">
@@ -89,7 +95,6 @@ function App() {
           </p>
         </div>
       </footer>
-=======
           <LandingPage/>
         </header>
       )}
@@ -100,7 +105,6 @@ function App() {
           <p>Your sustainability journey starts here.</p>
         </main>
       )}
->>>>>>> 4dedf536dc3fdbdfbff95c2d987690286cb09aee
     </div>
   );
 }
