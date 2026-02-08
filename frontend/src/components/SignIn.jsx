@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "./ui/card.jsx";
 
-export function SignIn({ onSignIn }) {
+export default function SignIn({ onSignIn }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -103,15 +103,10 @@ export function SignIn({ onSignIn }) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Card className="border-2 border-green-200 shadow-2xl">
-            <CardHeader className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Sparkles className="size-5 text-green-600" />
-                <CardTitle className="text-2xl">Welcome Back!</CardTitle>
-              </div>
-              <CardDescription>
-                Enter your details to start your eco-journey
-              </CardDescription>
+          <Card className="border-2 border-green-200 shadow-xl">
+            <CardHeader className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-green-600" />
+              <CardTitle className="text-xl">Login / Sign Up</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">

@@ -1,141 +1,56 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // 🔹 ADDED
-import "./hp.css"; // our merged CSS file
+import { useNavigate } from "react-router-dom";
+import "./home.css";
 
-const challenges = [
-  {
-    id: "1",
-    title: "Beach Cleanup",
-    description: "Pick up 10 pieces of trash at your nearest beach or waterfront",
-    impact: "Prevents ocean pollution and protects marine life",
-  },
-  {
-    id: "2",
-    title: "Zero Plastic Day",
-    description: "Go an entire day without using any single-use plastic",
-    impact: "Reduces plastic waste by approximately 100g per person",
-  },
-  {
-    id: "3",
-    title: "Community Composting",
-    description: "Start or contribute to a compost bin with your food scraps",
-    impact: "Diverts organic waste from landfills, reducing methane emissions",
-  },
-  {
-    id: "4",
-    title: "Reusable Revolution",
-    description: "Bring your own bags, containers, and utensils for all purchases today",
-    impact: "Eliminates up to 5 disposable items from waste stream",
-  },
-  {
-    id: "5",
-    title: "Clothing Swap",
-    description: "Organize or attend a clothing swap instead of buying new items",
-    impact: "Saves water, reduces textile waste, extends garment lifecycle",
-  },
-  {
-    id: "6",
-    title: "E-Waste Drop-off",
-    description: "Properly recycle old electronics at a certified e-waste facility",
-    impact: "Prevents toxic materials from entering landfills",
-  },
-  {
-    id: "7",
-    title: "Meatless Monday",
-    description: "Skip meat for the entire day and choose plant-based meals",
-    impact: "Reduces carbon footprint by approximately 2.5kg CO2",
-  },
-];
 
-function getDailyChallengeIndex() {
-  const today = new Date();
-  const startDate = new Date("2024-01-01");
-  const daysSinceStart = Math.floor(
-    (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
-  );
-  return daysSinceStart % challenges.length;
-}
+export default function HomePage({ user, dailyPrompt, onComplete }) {
+    const navigate = useNavigate();
 
-export default function App() {
-  const [currentTab, setCurrentTab] = useState("Today");
-  const [completed, setCompleted] = useState(false);
-
-  const todayChallenge = challenges[getDailyChallengeIndex()];
-
-  const handleComplete = () => setCompleted(true);
-
-  // 🔹 ADDED: navigate hook
-  const navigate = useNavigate();
-
-  // 🔹 ADDED: function to go to Leadership page
-  const goToLeadership = () => {
-    navigate("/leadership");
-  };
-
+    if (!dailyPrompt) {dailyPrompt = "Error Getting Daily Prompt"}
   return (
-    <div className="app">
-      {/* Header */}
-      <header>
-        <h1>EcoChallenge</h1>
-        <nav>
-          {["Today", "Leaderboard", "Stats"].map((tab) => (
-            <button
-              key={tab}
-              className={currentTab === tab ? "active" : ""}
-              onClick={() => setCurrentTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </nav>
+    <div className="home-page">
+      <header className="home-header">
+        <h1>EcoQuest</h1>
+        <button className="btn-leaderboard" onClick={() => navigate("/leaderboard")}>
+          Global Leaderboard
+        </button>
       </header>
 
-      {/* Stats */}
-      <div className="stats">
-        <div>
-          <h2>0</h2>
-          <p>STREAK</p>
-        </div>
-        <div>
-          <h2>{completed ? 1 : 0}</h2>
-          <p>COMPLETED</p>
-        </div>
-        <div>
-          <h2>0</h2>
-          <p>BEST</p>
-        </div>
-      </div>
+      <main className="prompt-card">
+        <p className="prompt-date">
+          {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
+        </p>
 
-      {/* Main */}
-      {currentTab === "Today" && (
-        <main>
-          <div className="challenge-card">
-            <p className="date">
-              {new Date().toLocaleDateString("en-US", {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-              })}
-            </p>
-            <h2>{todayChallenge.title}</h2>
-            <p className="description">{todayChallenge.description}</p>
-            <div className="impact">
-              <strong>Impact:</strong> {todayChallenge.impact}
-            </div>
-            <button onClick={handleComplete} disabled={completed}>
-              {completed ? "Completed" : "Mark Complete"}
-            </button>
+        <h2 className="prompt-text">{dailyPrompt.prompt}</h2>
 
-            {/* 🔹 ADDED: Button to navigate to Leadership page */}
-            <button onClick={goToLeadership} style={{ marginTop: "10px" }}>
-              Go to Leadership Page
-            </button>
+        <div className="impact-section">
+          <div className="impact-card">🌿 {dailyPrompt.co2_kg} kg CO₂</div>
+          <div className="impact-card">💧 {dailyPrompt.water_liters} L water</div>
+          <div className="impact-card">🗑 {dailyPrompt.waste_kg} kg waste</div>
+        </div>
+
+        <button
+          className="btn-complete"
+          disabled={user.completedToday}
+          onClick={onComplete}
+        >
+          {user.completedToday ? "Completed Today" : "Mark Complete"}
+        </button>
+      </main>
+
+      <section className="stats-section">
+        {[
+          { label: "Streak", value: user.currentStreak },
+          { label: "Points", value: user.points },
+          { label: "Completed", value: user.totalCompleted },
+        ].map((stat) => (
+          <div key={stat.label} className="stat-card">
+            <h2>{stat.value}</h2>
+            <p>{stat.label}</p>
           </div>
-          <p className="global">
-            {completed ? 1 : 0} challenges completed globally
-          </p>
-        </main>
-      )}
+        ))}
+      </section>
     </div>
   );
 }
+
+

@@ -1,0 +1,84 @@
+/* ----- Base ----- */
+body {
+  font-family: 'Inter', sans-serif;
+  background: #e7f5e6; /* soft green background */
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* ----- Center Card ----- */
+.landing-card {
+  background: #fdf6e3; /* creme/light card */
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 2rem 2.5rem;
+  width: 95%;
+  max-width: 450px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ----- Logo ----- */
+.landing-card .logo img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+/* ----- Heading ----- */
+.landing-card .heading h1 {
+  font-size: 2rem;
+  color: #2a6f2b;
+  margin: 0;
+}
+
+/* ----- Description ----- */
+.landing-card .description {
+  font-size: 1rem;
+  color: #556b2f;
+}
+
+/* ----- Buttons ----- */
+.landing-card .btn {
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.landing-card .btn.primary {
+  background: #4caf50;
+  color: white;
+}
+
+.landing-card .btn.primary:hover {
+  background: #388e3c;
+}
+
+/* ----- Footer ----- */
+.landing-card .footer {
+  font-size: 0.8rem;
+  color: #6b6b47;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+@media (max-width: 500px) {
+  .landing-card {
+    padding: 1.5rem 1.5rem;
+  }
+
+  .landing-card .heading h1 {
+    font-size: 1.6rem;
+  }
+}

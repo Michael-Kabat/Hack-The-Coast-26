@@ -1,15 +1,6 @@
 import { useState } from "react";
 
-/**
- * StandaloneSignIn Component
- *
- * A minimal, self-contained sign-in page
- * Just copy this file and use it anywhere!
- *
- * Props:
- * - onSignIn: (username) => void - Callback when user signs in
- * - brandName: string (optional) - Your app name (default: "EcoQuest")
- */
+
 export function StandaloneSignIn({ onSignIn, brandName = "EcoQuest" }) {
   const [username, setUsername] = useState("");
 

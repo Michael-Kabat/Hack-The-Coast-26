@@ -8,8 +8,7 @@ const API = axios.create({
 export const getLeaderboard = () => API.get("/users/leaderboard");
 
 // Complete daily challenge
-export const completeDaily = (userId) => API.post(`/users/${userId}/complete`);
-
+export const completeDaily = (userId, body) => API.post(`/users/${userId}/complete`, body);
 // Register user
 export const registerUser = (data) => API.post("/auth/register", data);
 

@@ -1,3 +1,7 @@
-import API from "./client";
+import axios from "axios";
+
+const API = axios.create({
+  baseURL: "http://localhost:5000/api",
+});
 
 export const getDailyPrompt = () => API.get("/prompts/daily");

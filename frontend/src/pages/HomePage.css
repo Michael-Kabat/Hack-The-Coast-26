@@ -1,0 +1,151 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: #f3f2ef;
+}
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.home-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin-bottom: 2rem;
+}
+
+.home-header h1 {
+  font-size: 2.2rem;
+  color: #1b4332;
+}
+
+.btn-leaderboard {
+  padding: 0.5rem 1rem;
+  background: #40916c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-leaderboard:hover {
+  background: #2d6a4f;
+}
+
+/* Stats Cards */
+.stats-cards {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin-top: 2rem; /* adds breathing room between prompt and stats */
+
+}
+
+.stat-card {
+  flex: 1 1 150px;
+  background: #fff7e6;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+}
+
+.stat-card h2 {
+  font-size: 2rem;
+  color: #1b4332;
+  margin-bottom: 0.25rem;
+}
+.stat-card p {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+/* Prompt Card */
+.prompt-card {
+  background: #fffdf4;
+  border-radius: 15px;
+  padding: 2rem;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  
+}
+.prompt {
+  margin-bottom: 2rem; /* adjust value as needed */
+}
+.stats {
+  margin-top: 2rem; /* adds breathing room between prompt and stats */
+}
+
+.prompt-date {
+  font-size: 0.85rem;
+  color: #52796f;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.prompt-text {
+  font-size: 1.5rem;
+  color: #1b4332;
+  margin-bottom: 1.5rem;
+}
+
+.impact-cards {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.impact-card {
+  flex: 1 1 120px;
+  background: #e9f5ef;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: #40916c;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Complete Button */
+.btn-complete {
+  background: #40916c;
+  color: white;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-complete:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+.btn-complete:hover:not(:disabled) {
+  background: #2d6a4f;
+}
+
+/* Loading */
+.home-loading {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 5rem;
+  color: #1b4332;
+}

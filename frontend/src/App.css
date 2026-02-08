@@ -8,24 +8,18 @@
 
 body {
   background-color: #99d98c; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
+
 .container {
-  text-align: center;
-  background-color: white;
-  padding: 60px 40px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  max-width: 600px;
-  width: 90%;
+  max-width: 1000px;
+  width: 95%;
+  margin: 2rem auto; /* centers horizontally with top/bottom spacing */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  gap: 2rem;
 }
 
 .logo img{

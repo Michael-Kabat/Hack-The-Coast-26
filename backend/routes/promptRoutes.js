@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const path = require("path");
+const { v4: uuidv4 } = require("uuid"); // generate unique ids if needed
 
 // GET today's prompt (same for all users)
 router.get("/daily", (req, res) => {
@@ -15,22 +16,19 @@ router.get("/daily", (req, res) => {
     // Use today's date as seed
     const today = new Date();
     const dayString = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
-    const hash = [...dayString].reduce(
-      (acc, char) => acc + char.charCodeAt(0),
-      0,
-    );
+    const hash = [...dayString].reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
     // Pick a prompt deterministically
     const index = hash % prompts.length;
     const dailyPrompt = prompts[index];
-    const completedToday = false;
+
     res.json({
       prompt: dailyPrompt.prompt,
-      points: dailyPrompt.points,
-      completedToday,
-      co2_kg: dailyPrompt.co2_kg,
-      water_liters: dailyPrompt.water_liters,
-      waste_kg: dailyPrompt.waste_kg,
+      points: Number(dailyPrompt.points || 10),
+      completedToday: false,
+      co2_kg: Number(dailyPrompt.co2_kg || 0),
+      water_liters: Number(dailyPrompt.water_liters || 0),
+      waste_kg: Number(dailyPrompt.waste_kg || 0),
     });
   } catch (err) {
     console.error(err);

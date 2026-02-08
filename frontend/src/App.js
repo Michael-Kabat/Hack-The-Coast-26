@@ -4,23 +4,13 @@ import {
   Routes,
   Route,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
-
 import LandingPage from "./pages/LandingPage.jsx";
+import SignIn from "./components/SignIn.jsx";
+import Leaderboard from "./components/Leaderboard.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import { SignIn } from "./components/SignIn.jsx";
-import { UserStats } from "./components/UserStats.jsx";
 import {
-  Tabs,
-  TabsTrigger,
-  TabsContent,
-  TabsList,
-} from "./components/ui/tabs.jsx";
-import { Leaderboard } from "./components/Leaderboard.jsx";
-import { DailyMission } from "./components/DailyMission.jsx";
-
-import {
-  loginUser,
   registerUser,
   completeDaily,
   getDailyPrompt,
@@ -28,24 +18,14 @@ import {
   getAggregates,
 } from "./api/users";
 
-function App() {
+function AppRoutes() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [leaderboard, setLeaderboard] = useState([]);
-  const [dailyPrompt, setDailyPrompt] = useState("");
-  const [aggregates, setAggregates] = useState({
-    co2: 0,
-    water: 0,
-    waste: 0,
-  });
-  const [totalUsers, setTotalUsers] = useState(0);
+  const [dailyPrompt, setDailyPrompt] = useState(null);
+  const [aggregates, setAggregates] = useState({ co2: 0, water: 0, waste: 0 });
 
-  // Restore session
-  useEffect(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) setUser(JSON.parse(savedUser));
-  }, []);
-
-  // Fetch leaderboard and aggregates
+  // Fetch leaderboard, aggregates, and prompt
   const fetchData = async () => {
     try {
       const [lbRes, aggRes, promptRes] = await Promise.all([
@@ -53,111 +33,102 @@ function App() {
         getAggregates(),
         getDailyPrompt(),
       ]);
-      setLeaderboard(lbRes.data); // top 10 users
-      setAggregates(aggRes.data); // { co2, water, waste }
-      setDailyPrompt(promptRes.data.prompt); // daily prompt text
+
+      setLeaderboard(lbRes.data);
+      setAggregates(aggRes.data);
+      setDailyPrompt(promptRes.data); // full prompt object
     } catch (err) {
       console.error("Error fetching data:", err);
     }
   };
 
   useEffect(() => {
-    if (user) fetchData();
-  }, [user]);
+    fetchData();
+  }, []);
 
-  // SignIn / Register handler
   const handleSignIn = async (credentials) => {
     try {
-      console.log(credentials);
       const res = await registerUser(credentials);
+      // Keep MongoDB _id exactly as-is
+      console.log(res);
       setUser(res.data);
-      localStorage.setItem("user", JSON.stringify(res.data));
+      navigate("/home");
     } catch (err) {
       console.error("Auth error:", err);
-      alert("Login failed. Check your email and password."); // optional UX
+      alert("Login failed. Check your details.");
     }
   };
 
-  // Complete daily mission
   const handleMissionComplete = async () => {
-    if (!user) return;
+    console.log(user);
+    if (!user?._id || !dailyPrompt) return;
+
+    const payload = {
+      points: dailyPrompt.points || 10,
+      impact: {
+        co2: dailyPrompt.co2_kg || 0,
+        water: dailyPrompt.water_liters || 0,
+        waste: dailyPrompt.waste_kg || 0,
+      },
+    };
+
     try {
-      const res = await completeDaily(user.id);
-      setUser(res.data);
-      localStorage.setItem("user", JSON.stringify(res.data));
-      fetchData(); // refresh leaderboard and aggregates
+      const res = await completeDaily(user._id, payload);
+      const data = res.data;
+
+      // Update user state with returned stats
+      setUser((prev) => ({
+        ...prev,
+        points: data.points,
+        currentStreak: data.currentStreak,
+        longestStreak: data.longestStreak,
+        totalCompleted: data.totalCompleted,
+        completedToday: true,
+      }));
+
+      fetchData(); // refresh leaderboard & totals
     } catch (err) {
       console.error("Failed to complete mission:", err);
+      alert(err.response?.data?.error || "Failed to complete challenge");
     }
   };
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/signin" element={<SignIn onSignIn={handleSignIn} />} />
-
-        <Route
-          path="/home"
-          element={
-            user ? (
-              <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-                <div className="space-y-8">
-                  <UserStats
-                    totalPoints={user.points}
-                    streak={user.currentStreak}
-                    completedMissions={user.totalCompleted}
-                    aggregates={aggregates} // show aggregate analysis
-                    userContribution={{
-                      co2: user.impact?.co2 || 0,
-                      water: user.impact?.water || 0,
-                      waste: user.impact?.waste || 0,
-                    }}
-                    totalUsers={totalUsers}
-                  />
-
-                  <Tabs defaultValue="mission" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2">
-                      <TabsTrigger value="mission">Daily Mission</TabsTrigger>
-                      <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
-                    </TabsList>
-
-                    <TabsContent value="mission" className="space-y-4">
-                      <DailyMission
-                        onComplete={handleMissionComplete}
-                        completedToday={user.completedToday}
-                        prompt={dailyPrompt}
-                      />
-                    </TabsContent>
-
-                    <TabsContent value="leaderboard" className="space-y-4">
-                      <Leaderboard
-                        currentUserPoints={user.points}
-                        leaderboard={leaderboard}
-                      />
-                    </TabsContent>
-                  </Tabs>
-                </div>
-              </main>
-            ) : (
-              <Navigate to="/signin" />
-            )
-          }
-        />
-
-        <Route
-          path="/leaderboard"
-          element={
-            user ? (
-              <Leaderboard leaderboard={leaderboard} />
-            ) : (
-              <Navigate to="/signin" />
-            )
-          }
-        />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/signin" element={<SignIn onSignIn={handleSignIn} />} />
+      <Route
+        path="/home"
+        element={
+          user ? (
+            <HomePage
+              user={user}
+              dailyPrompt={dailyPrompt}
+              onComplete={handleMissionComplete}
+            />
+          ) : (
+            <Navigate to="/signin" />
+          )
+        }
+      />
+      <Route
+        path="/leaderboard"
+        element={
+          user ? (
+            <Leaderboard leaderboard={leaderboard} />
+          ) : (
+            <Navigate to="/signin" />
+          )
+        }
+      />
+    </Routes>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Router>
+      <AppRoutes />
+    </Router>
+  );
+}

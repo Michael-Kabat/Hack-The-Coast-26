@@ -20,7 +20,7 @@ router.post("/login", async (req, res) => {
       user.lastCompleted && user.lastCompleted.toDateString() === todayStr;
 
     res.json({
-      id: user._id,
+      _id: user._id,
       username: user.username,
       email: user.email,
       points: user.points,
@@ -57,15 +57,13 @@ router.post("/register", async (req, res) => {
       username,
       email,
       password,
-
-      // Ensure impact fields exist
       totalCO2: 0,
       totalWater: 0,
       totalWaste: 0,
     });
 
     res.status(201).json({
-      id: user._id,
+      _id: user._id,
       username: user.username,
       email: user.email,
       points: user.points,
@@ -73,8 +71,6 @@ router.post("/register", async (req, res) => {
       longestStreak: user.longestStreak,
       totalCompleted: user.totalCompleted,
       completedToday: false,
-
-      // 🌱 Impact Engine
       totalCO2: 0,
       totalWater: 0,
       totalWaste: 0,
@@ -84,5 +80,6 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
 
 module.exports = router;

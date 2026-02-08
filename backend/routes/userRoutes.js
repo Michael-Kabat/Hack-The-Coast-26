@@ -29,6 +29,9 @@ router.get("/", async (req, res) => {
 // Complete daily challenge + apply impact
 router.post("/:id/complete", async (req, res) => {
   try {
+    console.log("Request body:", req.body);
+console.log("User found:", user);
+
     const userId = req.params.id;
     const { points = 0, impact = {} } = req.body;
 
@@ -120,6 +123,16 @@ router.get("/leaderboard", async (req, res) => {
       );
 
     const users = await User.find().select("totalCompleted totalCO2 totalWater totalWaste");
+    const normalizedTopUsers = topUsers.map((u) => ({
+  username: u.username,
+  points: u.points || 0,
+  currentStreak: u.currentStreak || 0,
+  longestStreak: u.longestStreak || 0,
+  totalCompleted: u.totalCompleted || 0,
+  totalCO2: u.totalCO2 || 0,
+  totalWater: u.totalWater || 0,
+  totalWaste: u.totalWaste || 0,
+}));
 
     const totals = users.reduce(
       (acc, u) => {
@@ -133,9 +146,10 @@ router.get("/leaderboard", async (req, res) => {
     );
 
     res.json({
-      topUsers,
-      globalTotals: totals
-    });
+    topUsers: normalizedTopUsers,
+    globalTotals: totals,
+});
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

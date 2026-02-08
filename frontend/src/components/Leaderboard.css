@@ -1,0 +1,131 @@
+
+
+.leaderboard-page__container {
+  min-height: 100vh;
+  padding: 2rem 1rem 4rem; /* top + horizontal + bottom padding */
+  background: #fdf6e3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  font-family: "Inter", sans-serif;
+}
+
+.leaderboard-page__header {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.leaderboard-page__back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #276749;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.leaderboard-page__back-btn:hover {
+  background: #22543d;
+}
+
+.leaderboard-page__totals-card {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.leaderboard-page__totals-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.leaderboard-page__totals-grid div {
+  background: #f0fff4;
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+}
+
+.leaderboard-page__totals-grid strong {
+  display: block;
+  font-size: 1.25rem;
+  color: #2f855a;
+}
+
+.leaderboard-page__totals-grid span {
+  font-size: 0.75rem;
+  color: #4a5568;
+}
+
+.leaderboard-page__users-list {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.leaderboard-page__user-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff7eb;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  font-weight: 500;
+}
+
+.leaderboard-page__rank {
+  width: 2rem;
+  text-align: center;
+}
+
+.leaderboard-page__username {
+  flex: 1;
+  text-align: left;
+  margin-left: 1rem;
+}
+
+.leaderboard-page__points {
+  font-weight: 600;
+  color: #2f855a;
+}
+
+.leaderboard-page__streak {
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+.leaderboard-page__icon-gold {
+  color: #ecc94b;
+}
+
+.leaderboard-page__icon-silver {
+  color: #a0aec0;
+}
+
+.leaderboard-page__icon-bronze {
+  color: #dd6b20;
+}
+
+.leaderboard-page__loading,
+.leaderboard-page__error {
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+}
