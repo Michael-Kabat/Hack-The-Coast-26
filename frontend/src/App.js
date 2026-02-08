@@ -2,10 +2,11 @@ import logo from "./logo.svg";
 import "./App.css";
 
 import { useState } from "react";
-import { StandaloneSignIn } from "./StandaloneSignIn";
+import { StandaloneSignIn } from "./pages/StandaloneSignIn";
 
 function App() {
   const [user, setUser] = useState(null);
+
   return (
     <div className="App">
       {!user && (
