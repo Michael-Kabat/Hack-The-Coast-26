@@ -54,7 +54,7 @@ export function SignIn({ onSignIn }) {
             >
               <Leaf className="size-9 text-white" />
             </motion.div>
-            <h1 className="text-5xl font-bold text-green-900">EcoQuest</h1>
+            <h1 className="text-5xl font-bold text-green-900">Protect the Coast</h1>
           </div>
 
           <div className="space-y-4">
@@ -103,7 +103,8 @@ export function SignIn({ onSignIn }) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Card className="border-2 border-green-200 shadow-2xl">
+
+          <Card className="bg-white/80 backdrop-blur-md border-2  shadow-2xl">
             <CardHeader className="space-y-2">
               <div className="flex items-center gap-2">
                 <Sparkles className="size-5 text-green-600" />
