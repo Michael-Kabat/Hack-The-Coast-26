@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import LandingPage  from "./pages/LandingPage.jsx";
+import LandingPage from "./pages/LandingPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import {SignIn} from "./components/SignIn.jsx";
 import {UserStats} from "./components/UserStats.jsx";
@@ -108,6 +108,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
