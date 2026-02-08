@@ -25,9 +25,9 @@ router.get("/daily", (req, res) => {
         prompt: dailyPrompt.prompt,
         points: dailyPrompt.points,
         completedToday,
-        currentStreak: user.currentStreak,
-        longestStreak: user.longestStreak,
-        totalCompleted: user.totalCompleted,
+        co2_kg: dailyPrompt.co2_kg,
+        water_liters: dailyPrompt.water_liters,
+        waste_kg: dailyPrompt.waste_kg
     });
 
   } catch (err) {
