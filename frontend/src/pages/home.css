@@ -42,7 +42,29 @@ body, html {
   cursor: pointer;
   transition: 0.3s;
 }
+.home-actions {
+  display: flex;
+  flex-direction: column;   /* STACK vertically */
+  align-items: center;      /* CENTER horizontally */
+  gap: 1rem;                /* SPACE between buttons */
+  margin-top: 2rem;
+}
+
+
+.btn-stats {
+  padding: 0.6rem 1.2rem;
+  background: #40916c;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
 .btn-leaderboard:hover {
+  background: #2d6a4f;
+}
+.btn-stats:hover {
   background: #2d6a4f;
 }
 
@@ -54,7 +76,6 @@ body, html {
   flex-wrap: wrap;
   width: 100%;
   max-width: 1400px;
-  margin-bottom: 2rem;
 margin-top: 2rem; /* adds breathing room between prompt and stats */
 
 }
