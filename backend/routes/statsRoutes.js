@@ -67,5 +67,55 @@ router.get("/aggregates", async (req, res) => {
   }
 });
 
+router.get("/daily", async (req, res) => {
+  try {
+    const dailyStats = await User.aggregate([
+      {
+        $group: {
+          _id: {
+            date: {
+              $dateToString: {
+                format: "%Y-%m-%d",
+                date: "$updatedAt",
+              },
+            },
+          },
+          totalChallengesCompleted: { $sum: "$totalCompleted" },
+          totalCO2: { $sum: "$totalCO2" },
+          totalWater: { $sum: "$totalWater" },
+          totalWaste: { $sum: "$totalWaste" },
+        },
+      },
+      {
+        $addFields: {
+          // Estimate active users (1 challenge ≈ 1 active user)
+          usersActive: {
+            $round: [
+              { $divide: ["$totalChallengesCompleted", 1.2] },
+              0,
+            ],
+          },
+        },
+      },
+      { $sort: { "_id.date": 1 } },
+      {
+        $project: {
+          _id: 0,
+          date: "$_id.date",
+          usersActive: 1,
+          totalChallengesCompleted: 1,
+          totalCO2: 1,
+          totalWater: 1,
+          totalWaste: 1,
+        },
+      },
+    ]);
+
+    res.json(dailyStats);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch daily stats" });
+  }
+});
 
 module.exports = router;

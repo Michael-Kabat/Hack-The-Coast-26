@@ -9,6 +9,7 @@
   align-items: center;
   gap: 2rem;
   font-family: "Inter", sans-serif;
+  width: 100%;
 }
 
 .leaderboard-page__header {
@@ -17,6 +18,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  justify-content: center;
 }
 
 .leaderboard-page__back-btn {
@@ -81,7 +83,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff7eb;
+  background: #ffeacb;
   padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
@@ -128,4 +130,27 @@
   justify-content: center;
   align-items: center;
   font-size: 1.25rem;
+}
+.leaderboard-page__container {
+  max-width: 100%;
+  width: 100vw;
+
+}eader wider */
+.leaderboard-page__header {
+  width: 100%;
+  max-width: 1100px; /* was 800px */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Totals card wider */
+.leaderboard-page__totals-card {
+  width: 100%;
+  max-width: 1100px; /* was 800px */
+}
+
+/* Users list wider */
+.leaderboard-page__users-list {
+  width: 100%;
+  max-width: 1100px; /* was 800px */
 }

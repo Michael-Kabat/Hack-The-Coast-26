@@ -10,6 +10,7 @@ import LandingPage from "./pages/LandingPage.jsx";
 import SignIn from "./components/SignIn.jsx";
 import Leaderboard from "./components/Leaderboard.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import StatsPage from "./pages/StatsPage.jsx";
 import {
   registerUser,
   loginUser,
@@ -105,6 +106,9 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/signin" element={<SignIn onSignIn={handleSignIn} />} />
+      <Route path="/stats" element={
+        user ? (<StatsPage />): (
+            <Navigate to="/signin" />)} />
       <Route
         path="/home"
         element={
