@@ -26,7 +26,6 @@ export function SignIn({ onSignIn }) {
       username: username.trim(),
       email: email.trim(),
       password: password.trim(),
-      isRegister: false, // change to true if you want registration
     });
   };
 
