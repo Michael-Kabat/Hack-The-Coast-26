@@ -12,6 +12,7 @@ import Leaderboard from "./components/Leaderboard.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import {
   registerUser,
+  loginUser,
   completeDaily,
   getDailyPrompt,
   getLeaderboard,
@@ -48,14 +49,20 @@ function AppRoutes() {
 
   const handleSignIn = async (credentials) => {
     try {
-      const res = await registerUser(credentials);
-      // Keep MongoDB _id exactly as-is
-      console.log(res);
+      // 1️⃣ Try login
+      const res = await loginUser(credentials);
       setUser(res.data);
       navigate("/home");
-    } catch (err) {
-      console.error("Auth error:", err);
-      alert("Login failed. Check your details.");
+    } catch (loginErr) {
+      try {
+        // 2️⃣ If login fails, register
+        const res = await registerUser(credentials);
+        setUser(res.data);
+        navigate("/home");
+      } catch (registerErr) {
+        console.error("Auth error:", registerErr);
+        alert(registerErr.response?.data?.error || "Authentication failed");
+      }
     }
   };
 
