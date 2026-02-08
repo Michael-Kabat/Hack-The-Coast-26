@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import logo from "./logo.svg";
-import { useState } from "react";
-import LandingPage  from "./pages/LandingPage.jsx";
-=======
 import { useState, useEffect } from "react";
 import { Leaf } from "lucide-react";
 import { SignIn } from "./components/SignIn.jsx";
@@ -15,7 +10,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "./components/ui/tabs.jsx";
->>>>>>> c1ac3f5 (refactor: restructure App component; integrate user authentication and mission tracking)
 
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -105,11 +99,6 @@ function App() {
         </div>
       </header>
 
-<<<<<<< HEAD
-          <LandingPage/>
-        </header>
-      )}
-=======
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="space-y-8">
@@ -119,7 +108,6 @@ function App() {
             streak={streak}
             completedMissions={completedMissions}
           />
->>>>>>> c1ac3f5 (refactor: restructure App component; integrate user authentication and mission tracking)
 
           {/* Tabs for Mission and Leaderboard */}
           <Tabs defaultValue="mission" className="w-full">
@@ -153,6 +141,3 @@ function App() {
 }
 
 export default App;
-
-
-
