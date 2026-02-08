@@ -2,9 +2,13 @@ import { useState, useEffect } from "react";
 import LandingPage from "./pages/LandingPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import { SignIn } from "./components/SignIn.jsx";
-import { DailyMission } from "./components/DailyMission.jsx";
-import { Leaderboard } from "./components/Leaderboard.jsx";
 import { UserStats } from "./components/UserStats.jsx";
+import { Tabs } from "./components/ui/tabs.jsx";
+import { TabsTrigger } from "./components/ui/tabs.jsx";
+import { TabsContent } from "./components/ui/tabs.jsx";
+import { TabsList } from "./components/ui/tabs.jsx";
+import { Leaderboard } from "./components/Leaderboard.jsx";
+import { DailyMission } from "./components/DailyMission.jsx";
 
 // API helpers
 import {
@@ -115,11 +119,52 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 p-4">
-      <header className="mb-6">
-        <h1 className="text-3xl font-bold text-green-900">EcoQuest</h1>
-        <p className="text-green-700">Welcome back, {user.username} 🌱</p>
-      </header>
+    <div className="App">
+      {!user && (
+        <header className="App-header">
+          {/* Main Content */}
+          <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <div className="space-y-8">
+              {/* User Stats */}
+              <UserStats
+                totalPoints={user.points}
+                streak={user.currentStreak}
+                completedMissions={user.totalCompleted}
+              />
+
+              {/* Tabs */}
+              <Tabs defaultValue="mission" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="mission">Daily Mission</TabsTrigger>
+                  <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="mission" className="space-y-4">
+                  <DailyMission
+                    onComplete={handleMissionComplete}
+                    completedToday={user.completedToday}
+                  />
+                </TabsContent>
+
+                <TabsContent value="leaderboard" className="space-y-4">
+                  <Leaderboard currentUserPoints={user.points} />
+                </TabsContent>
+              </Tabs>
+            </div>
+          </main>
+
+          {/* Footer */}
+          <footer className="mt-12 border-t bg-white/30 backdrop-blur-sm">
+            <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+              <p className="text-center text-sm text-green-700">
+                🌍 Together, we can make a difference. Complete daily missions
+                and inspire others!
+              </p>
+            </div>
+          </footer>
+          <LandingPage />
+        </header>
+      )}
 
       {/* User Stats */}
       <UserStats
