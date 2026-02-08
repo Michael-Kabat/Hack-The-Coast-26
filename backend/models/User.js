@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     points: { type: Number, default: 0 },
     lastCompleted: { type: Date, default: null },
-
+    totalCO2: { type: Number, default: 0 },      // kg
+    totalWater: { type: Number, default: 0 },    // liters
+    totalWaste: { type: Number, default: 0 },    // kg
     // New streak fields
     currentStreak: { type: Number, default: 0 },
     longestStreak: { type: Number, default: 0 },

@@ -1,29 +1,144 @@
 {
-    "prompts": [
-        {"prompt": "Turn off all unused lights in your home today", "points": 10},
-        {"prompt": "Unplug one device that uses standby power", "points": 5},
-        {"prompt": "Take public transport, bike, or walk for at least one trip today", "points": 10},
-        {"prompt": "Set your thermostat 2°C lower (in winter) or higher (in summer) for today", "points": 10},
-        {"prompt": "Recycle all eligible waste correctly today", "points": 10},
-        {"prompt": "Bring a reusable bag to the store", "points": 5},
-        {"prompt": "Avoid buying single-use plastic items today", "points": 10},
-        {"prompt": "Compost at least one food item", "points": 5},
-        {"prompt": "Pick up five pieces of garbage in your local area", "points": 10},
-        {"prompt": "Plant one tree or shrub, or water an existing plant", "points": 15},
-        {"prompt": "Observe and record three different birds or insects near you", "points": 10},
-        {"prompt": "Create a small habitat for local wildlife (like a bird feeder)", "points": 10},
-        {"prompt": "Turn off the tap while brushing your teeth today", "points": 5},
-        {"prompt": "Take a shower under five minutes", "points": 10},
-        {"prompt": "Reuse water from cooking or washing plants", "points": 5},
-        {"prompt": "Check for leaky faucets and report/fix them", "points": 10},
-        {"prompt": "Read one article about local environmental issues", "points": 5},
-        {"prompt": "Share an environmental tip on social media", "points": 5},
-        {"prompt": "Watch a short documentary on climate change or biodiversity", "points": 10},
-        {"prompt": "Invite a friend to play the game", "points": 10},
-        {"prompt": "Create a mini poster or infographic about reducing carbon footprint", "points": 10},
-        {"prompt": "Organize or join a community clean-up", "points": 50},
-        {"prompt": "Start a zero-waste challenge in your household for the day", "points": 10},
-        {"prompt": "Coordinate a carpool with friends or colleagues", "points": 10},
-        {"prompt": "Plant a small garden with your neighbors or roommates", "points": 15}
-    ]
+  "prompts": [
+    {
+      "prompt": "Turn off all unused lights and electronics when not in use today",
+      "points": 10,
+      "co2_kg": 0.4,
+      "water_liters": 0,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Unplug one device that uses standby power",
+      "points": 5,
+      "co2_kg": 0.2,
+      "water_liters": 0,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Take public transport, bike, or walk instead of driving for one trip",
+      "points": 10,
+      "co2_kg": 2.0,
+      "water_liters": 0,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Adjust your thermostat by 2°C for the day",
+      "points": 10,
+      "co2_kg": 1.5,
+      "water_liters": 0,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Recycle all eligible waste correctly today",
+      "points": 10,
+      "co2_kg": 0.6,
+      "water_liters": 20,
+      "waste_kg": 1.0
+    },
+    {
+      "prompt": "Use a reusable bag instead of a plastic bag",
+      "points": 5,
+      "co2_kg": 0.05,
+      "water_liters": 0,
+      "waste_kg": 0.03
+    },
+    {
+      "prompt": "Avoid buying single-use plastic items today",
+      "points": 10,
+      "co2_kg": 0.3,
+      "water_liters": 0,
+      "waste_kg": 0.1
+    },
+    {
+      "prompt": "Compost at least one food waste item",
+      "points": 5,
+      "co2_kg": 0.25,
+      "water_liters": 0,
+      "waste_kg": 0.2
+    },
+    {
+      "prompt": "Pick up five pieces of litter in your local area",
+      "points": 10,
+      "co2_kg": 0,
+      "water_liters": 0,
+      "waste_kg": 0.5
+    },
+    {
+      "prompt": "Plant or water a tree or native plant",
+      "points": 15,
+      "co2_kg": 1.0,
+      "water_liters": -10,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Observe and log three local birds or insects",
+      "points": 10,
+      "co2_kg": 0,
+      "water_liters": 0,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Create a small wildlife-friendly habitat (e.g., bird feeder or pollinator plants)",
+      "points": 10,
+      "co2_kg": 0.2,
+      "water_liters": -5,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Turn off the tap while brushing your teeth",
+      "points": 5,
+      "co2_kg": 0.05,
+      "water_liters": 12,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Take a shower under five minutes",
+      "points": 10,
+      "co2_kg": 1.2,
+      "water_liters": 50,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Fix or report a leaky faucet",
+      "points": 10,
+      "co2_kg": 0.3,
+      "water_liters": 100,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Read an article about a local environmental issue",
+      "points": 5,
+      "co2_kg": 0,
+      "water_liters": 0,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Share an environmental tip or completed action with others",
+      "points": 5,
+      "co2_kg": 0,
+      "water_liters": 0,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Organize or join a community clean-up",
+      "points": 50,
+      "co2_kg": 1.0,
+      "water_liters": 0,
+      "waste_kg": 5.0
+    },
+    {
+      "prompt": "Coordinate a carpool instead of driving separately",
+      "points": 10,
+      "co2_kg": 3.0,
+      "water_liters": 0,
+      "waste_kg": 0
+    },
+    {
+      "prompt": "Start a small shared garden with others",
+      "points": 15,
+      "co2_kg": 2.5,
+      "water_liters": -20,
+      "waste_kg": 0.5
+    }
+  ]
 }

@@ -2,13 +2,24 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 
-// Get total number of users
+// Get total number of users + global impact
 router.get("/", async (req, res) => {
   try {
-    // Count all users in the database
     const totalUsers = await User.countDocuments();
 
-    res.status(200).json({ totalUsers });
+    const users = await User.find().select("totalCO2 totalWater totalWaste");
+
+    const globalImpact = users.reduce(
+      (acc, u) => {
+        acc.co2 += u.totalCO2 || 0;
+        acc.water += u.totalWater || 0;
+        acc.waste += u.totalWaste || 0;
+        return acc;
+      },
+      { co2: 0, water: 0, waste: 0 }
+    );
+
+    res.status(200).json({ totalUsers, globalImpact });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -24,10 +35,17 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Complete daily challenge + apply impact
 router.post("/:id/complete", async (req, res) => {
   try {
     const userId = req.params.id;
-    const points = req.body.points || 0;
+    const { points = 0, impact = {} } = req.body;
+
+    const {
+      co2 = 0,
+      water = 0,
+      waste = 0
+    } = impact;
 
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: "User not found" });
@@ -35,36 +53,48 @@ router.post("/:id/complete", async (req, res) => {
     const today = new Date();
     const todayStr = today.toDateString();
 
-    // Check if already completed today
+    // Prevent double completion
     if (user.lastCompleted && user.lastCompleted.toDateString() === todayStr) {
       return res.status(400).json({ error: "Daily challenge already completed" });
     }
 
-    // Update streak
+    // Streak logic
     let newStreak = 1;
     if (user.lastCompleted) {
       const yesterday = new Date(today);
       yesterday.setDate(today.getDate() - 1);
       if (user.lastCompleted.toDateString() === yesterday.toDateString()) {
-        newStreak = user.currentStreak + 1; // continue streak
+        newStreak = user.currentStreak + 1;
       }
     }
 
+    // Update stats
     user.currentStreak = newStreak;
     user.longestStreak = Math.max(user.longestStreak, newStreak);
     user.points += points;
     user.totalCompleted += 1;
     user.lastCompleted = today;
 
+    // Impact Engine updates
+    user.totalCO2 += co2;
+    user.totalWater += water;
+    user.totalWaste += waste;
+
     await user.save();
 
     res.json({
       message: "Challenge completed!",
+      completedToday: true,
       points: user.points,
       currentStreak: user.currentStreak,
       longestStreak: user.longestStreak,
       totalCompleted: user.totalCompleted,
-      completedToday: true,
+      impactAdded: { co2, water, waste },
+      totalImpact: {
+        co2: user.totalCO2,
+        water: user.totalWater,
+        waste: user.totalWaste
+      }
     });
   } catch (err) {
     console.error(err);
@@ -72,45 +102,52 @@ router.post("/:id/complete", async (req, res) => {
   }
 });
 
-// Check if user has completed today's prompt
+// Check if user completed today
 router.get("/:id/completed", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ error: "User not found" });
 
     const todayStr = new Date().toDateString();
-    const completedToday = user.lastCompleted && user.lastCompleted.toDateString() === todayStr;
+    const completedToday =
+      user.lastCompleted && user.lastCompleted.toDateString() === todayStr;
 
     res.json({ completedToday });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
 
-// Leaderboard: top 10 users by points
+// Leaderboard with impact-aware stats
 router.get("/leaderboard", async (req, res) => {
   try {
     const topUsers = await User.find()
-      .sort({ points: -1 }) // or sort by currentStreak / totalCompleted if desired
+      .sort({ points: -1 })
       .limit(10)
-      .select("username points currentStreak longestStreak totalCompleted"); // return stats
+      .select(
+        "username points currentStreak longestStreak totalCompleted totalCO2 totalWater totalWaste"
+      );
 
-    // Total challenges completed by all users
-    const allUsers = await User.find().select("totalCompleted");
-    const totalChallengesCompleted = allUsers.reduce(
-      (acc, u) => acc + (u.totalCompleted || 0),
-      0
+    const users = await User.find().select("totalCompleted totalCO2 totalWater totalWaste");
+
+    const totals = users.reduce(
+      (acc, u) => {
+        acc.completed += u.totalCompleted || 0;
+        acc.co2 += u.totalCO2 || 0;
+        acc.water += u.totalWater || 0;
+        acc.waste += u.totalWaste || 0;
+        return acc;
+      },
+      { completed: 0, co2: 0, water: 0, waste: 0 }
     );
 
     res.json({
       topUsers,
-      totalChallengesCompleted,
+      globalTotals: totals
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 module.exports = router;
