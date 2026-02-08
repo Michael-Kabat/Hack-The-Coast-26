@@ -4,6 +4,7 @@ import LandingPage  from "./pages/LandingPage.jsx";
 
 function App() {
   const [user, setUser] = useState(null);
+
   return (
     <div className="App">
       {!user && (

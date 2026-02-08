@@ -1,4 +1,4 @@
-require("dotenv").config(); // MUST be first
+require("dotenv").config(); 
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -22,7 +22,9 @@ app.get("/", (req, res) => {
 });
 
 // Route Registration 
+app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/prompts", require("./routes/promptRoutes"));
 
 // Start server
 app.listen(PORT, () => {
