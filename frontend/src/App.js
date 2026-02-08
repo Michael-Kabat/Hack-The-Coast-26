@@ -11,72 +11,42 @@ import {
   TabsTrigger,
 } from "./components/ui/tabs.jsx";
 
+// API helpers (example)
+import { completeDaily } from "./api/users";
+
 function App() {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [username, setUsername] = useState("");
-  const [totalPoints, setTotalPoints] = useState(0);
-  const [streak, setStreak] = useState(0);
-  const [completedMissions, setCompletedMissions] = useState(0);
+  // 🔑 Single source of truth
+  const [user, setUser] = useState(null);
 
+  // 🔄 Restore session on refresh
   useEffect(() => {
-    // Check if user is already signed in
-    const savedUsername = localStorage.getItem("username");
-    if (savedUsername) {
-      setUsername(savedUsername);
-      setIsSignedIn(true);
-    }
-
-    // Load user data from localStorage
-    const savedPoints = parseInt(localStorage.getItem("totalPoints") || "0");
-    const savedStreak = parseInt(localStorage.getItem("userStreak") || "0");
-    const savedMissions = parseInt(
-      localStorage.getItem("completedMissions") || "0",
-    );
-
-    setTotalPoints(savedPoints);
-    setStreak(savedStreak);
-    setCompletedMissions(savedMissions);
-
-    // Check streak continuation
-    const lastCompletedDate = localStorage.getItem("lastCompletedMission");
-    const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    if (lastCompletedDate) {
-      const lastDate = new Date(lastCompletedDate);
-      // If last completion was not today or yesterday, reset streak
-      if (
-        lastDate.toDateString() !== today.toDateString() &&
-        lastDate.toDateString() !== yesterday.toDateString()
-      ) {
-        localStorage.setItem("userStreak", "0");
-        setStreak(0);
-      }
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
     }
   }, []);
 
-  const handleSignIn = (username) => {
-    setUsername(username);
-    setIsSignedIn(true);
-    localStorage.setItem("username", username);
+  // ✅ Called after successful login/register
+  const handleSignIn = (userData) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
-  const handleMissionComplete = (points) => {
-    const newPoints = totalPoints + points;
-    const newStreak = streak + 1;
-    const newCompletedMissions = completedMissions + 1;
+  // ✅ Backend-controlled mission completion
+  const handleMissionComplete = async () => {
+    if (!user) return;
 
-    setTotalPoints(newPoints);
-    setStreak(newStreak);
-    setCompletedMissions(newCompletedMissions);
-
-    localStorage.setItem("totalPoints", newPoints.toString());
-    localStorage.setItem("userStreak", newStreak.toString());
-    localStorage.setItem("completedMissions", newCompletedMissions.toString());
+    try {
+      const res = await completeDaily(user.id);
+      setUser(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
+    } catch (err) {
+      console.error("Failed to complete mission:", err);
+    }
   };
 
-  if (!isSignedIn) {
+  // 🚪 Not signed in
+  if (!user) {
     return <SignIn onSignIn={handleSignIn} />;
   }
 
@@ -104,12 +74,12 @@ function App() {
         <div className="space-y-8">
           {/* User Stats */}
           <UserStats
-            totalPoints={totalPoints}
-            streak={streak}
-            completedMissions={completedMissions}
+            totalPoints={user.points}
+            streak={user.currentStreak}
+            completedMissions={user.totalCompleted}
           />
 
-          {/* Tabs for Mission and Leaderboard */}
+          {/* Tabs */}
           <Tabs defaultValue="mission" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="mission">Daily Mission</TabsTrigger>
@@ -117,11 +87,14 @@ function App() {
             </TabsList>
 
             <TabsContent value="mission" className="space-y-4">
-              <DailyMission onComplete={handleMissionComplete} />
+              <DailyMission
+                onComplete={handleMissionComplete}
+                completedToday={user.completedToday}
+              />
             </TabsContent>
 
             <TabsContent value="leaderboard" className="space-y-4">
-              <Leaderboard currentUserPoints={totalPoints} />
+              <Leaderboard currentUserPoints={user.points} />
             </TabsContent>
           </Tabs>
         </div>
