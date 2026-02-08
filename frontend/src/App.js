@@ -1,8 +1,6 @@
 import logo from "./logo.svg";
-import "./App.css";
-
 import { useState } from "react";
-import { StandaloneSignIn } from "./StandaloneSignIn";
+import LandingPage  from "./pages/LandingPage.jsx";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -12,7 +10,7 @@ function App() {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
 
-          <StandaloneSignIn onSignIn={(username) => setUser(username)} />
+          <LandingPage/>
         </header>
       )}
 
@@ -27,3 +25,6 @@ function App() {
 }
 
 export default App;
+
+
+
