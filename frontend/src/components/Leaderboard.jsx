@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { Trophy, Crown, Medal, ArrowLeft } from "lucide-react";
+import { Crown, Medal, ArrowLeft } from "lucide-react";
 import { getLeaderboard } from "../api/users";
 import "./Leaderboard.css";
 
@@ -33,6 +33,7 @@ export default function Leaderboard() {
   if (error) return <div className="leaderboard-page__error">{error}</div>;
 
   return (
+    <div>
     <div className="leaderboard-page__container">
       <header className="leaderboard-page__header">
         <button
@@ -86,6 +87,7 @@ export default function Leaderboard() {
           </motion.div>
         ))}
       </div>
+    </div>
     </div>
   );
 }
