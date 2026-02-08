@@ -2,11 +2,18 @@
 import React from "react";
 import "../App.css";
 import logo from "../save-the-planet.png"; // Make sure the image is in the src folder or adjust path
+import SignIn from "../components/SignIn"; // adjust path if needed
+import { useNavigate } from "react-router-dom"; // 🔹 needed for navigation
 
-function LandingPage() {
+export default function LandingPage() {
+  const navigate = useNavigate(); // 🔹 get navigate function
+
+  const goToSignIn = () => {
+    navigate("/signin"); // 🔹 routes to SignIn page
+  };
+
   return (
     <div className="container">
-      
       <div className="logo">
         <img src={logo} alt="logo" />
       </div>
@@ -20,7 +27,10 @@ function LandingPage() {
       </p>
 
       <div className="button">
-        <button className="btn primary">Play</button>
+        {/* 🔹 Play button navigates to SignIn */}
+        <button className="btn primary" onClick={goToSignIn}>
+          Play
+        </button>
       </div>
 
       <div className="footer">
@@ -30,5 +40,3 @@ function LandingPage() {
     </div>
   );
 }
-
-export default LandingPage;

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";  
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+
 import LandingPage from "./pages/LandingPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import { SignIn } from "./components/SignIn.jsx";
@@ -8,21 +9,17 @@ import { Tabs, TabsTrigger, TabsContent, TabsList } from "./components/ui/tabs.j
 import { Leaderboard } from "./components/Leaderboard.jsx";
 import { DailyMission } from "./components/DailyMission.jsx";
 
-
 // API helpers
 import {
   loginUser,
   createUser,
   completeDaily,
-  getDailyPrompt,
   getLeaderboard,
   getAllUsers,
 } from "./api/users";
 
 function App() {
-  // 🔑 Hooks at the top
   const [user, setUser] = useState(null);
-  const [dailyPrompt, setDailyPrompt] = useState("");
   const [leaderboard, setLeaderboard] = useState([]);
   const [aggregateImpact, setAggregateImpact] = useState({
     co2: 0,
@@ -30,16 +27,19 @@ function App() {
     waste: 0,
   });
 
+  // Restore session on refresh
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
+  // Sign in handler
   const handleSignIn = (userData) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
+  // Complete daily mission
   const handleMissionComplete = async () => {
     if (!user) return;
     try {
@@ -47,8 +47,10 @@ function App() {
       setUser(res.data);
       localStorage.setItem("user", JSON.stringify(res.data));
 
-      // Refresh leaderboard and aggregate impact after completion
+      // Refresh leaderboard
       getLeaderboard().then((res) => setLeaderboard(res.data));
+
+      // Update aggregate impact
       getAllUsers().then((res) => {
         let co2 = 0,
           water = 0,
@@ -65,50 +67,59 @@ function App() {
     }
   };
 
-  // 🚪 Not signed in
-  if (!user) return <SignIn onSignIn={handleSignIn} />;
-
   return (
     <Router>
-      <div className="App">
-        {/* Page routes */}
-        <Routes>
-          <Route path="/home" element={
-            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-              <div className="space-y-8">
-                <UserStats
-                  totalPoints={user.points}
-                  streak={user.currentStreak}
-                  completedMissions={user.totalCompleted}
-                />
+      <Routes>
+        {/* Landing page */}
+        <Route path="/" element={<LandingPage />} />
 
-                <Tabs defaultValue="mission" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="mission">Daily Mission</TabsTrigger>
-                    <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
-                  </TabsList>
+        {/* SignIn page */}
+        <Route path="/signin" element={<SignIn onSignIn={handleSignIn} />} />
 
-                  <TabsContent value="mission" className="space-y-4">
-                    <DailyMission
-                      onComplete={handleMissionComplete}
-                      completedToday={user.completedToday}
-                    />
-                  </TabsContent>
+        {/* Home page - protected */}
+        <Route
+          path="/home"
+          element={
+            user ? (
+              <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+                <div className="space-y-8">
+                  <UserStats
+                    totalPoints={user.points}
+                    streak={user.currentStreak}
+                    completedMissions={user.totalCompleted}
+                  />
 
-                  <TabsContent value="leaderboard" className="space-y-4">
-                    <Leaderboard currentUserPoints={user.points} />
-                  </TabsContent>
-                </Tabs>
-              </div>
-            </main>
-          }/>
+                  <Tabs defaultValue="mission" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2">
+                      <TabsTrigger value="mission">Daily Mission</TabsTrigger>
+                      <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
+                    </TabsList>
 
-          <Route path="/leaderboard" element={<Leaderboard/>} />
+                    <TabsContent value="mission" className="space-y-4">
+                      <DailyMission
+                        onComplete={handleMissionComplete}
+                        completedToday={user.completedToday}
+                      />
+                    </TabsContent>
 
-          <Route path="/" element={<LandingPage />} />
-        </Routes>
+                    <TabsContent value="leaderboard" className="space-y-4">
+                      <Leaderboard currentUserPoints={user.points} />
+                    </TabsContent>
+                  </Tabs>
+                </div>
+              </main>
+            ) : (
+              <Navigate to="/signin" />
+            )
+          }
+        />
 
-      </div>
+        {/* Leaderboard page - protected */}
+        <Route
+          path="/leaderboard"
+          element={user ? <Leaderboard /> : <Navigate to="/signin" />}
+        />
+      </Routes>
     </Router>
   );
 }
