@@ -10,9 +10,15 @@ export default function HomePage({ user, dailyPrompt, onComplete }) {
     <div className="home-page">
       <header className="home-header">
         <h1>Protect the Coast</h1>
-        <button className="btn-leaderboard" onClick={() => navigate("/leaderboard")}>
+        <div className="home-actions">
+<button className="btn-leaderboard" onClick={() => navigate("/stats")}>
+          Global Contribution
+        </button>
+        <button className="btn-stats" onClick={() => navigate("/leaderboard")}>
           Global Leaderboard
         </button>
+</div>
+        
       </header>
 
 
