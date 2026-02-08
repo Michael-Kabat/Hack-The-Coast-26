@@ -30,8 +30,6 @@ router.get("/", async (req, res) => {
 router.post("/:id/complete", async (req, res) => {
   try {
     console.log("Request body:", req.body);
-console.log("User found:", user);
-
     const userId = req.params.id;
     const { points = 0, impact = {} } = req.body;
 

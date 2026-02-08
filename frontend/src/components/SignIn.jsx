@@ -145,7 +145,7 @@ export default function SignIn({ onSignIn }) {
                 {/* Email */}
                 <div className="space-y-2">
                   <Label htmlFor="email" className="flex items-center gap-2">
-                    <Mail className="size-4" /> Email (optional)
+                    <Mail className="size-4" /> Email
                   </Label>
                   <Input
                     id="email"

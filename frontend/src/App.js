@@ -68,6 +68,7 @@ function AppRoutes() {
 
   const handleMissionComplete = async () => {
     console.log(user);
+    fetchData();
     if (!user?._id || !dailyPrompt) return;
 
     const payload = {
@@ -93,7 +94,7 @@ function AppRoutes() {
         completedToday: true,
       }));
 
-      fetchData(); // refresh leaderboard & totals
+       // refresh leaderboard & totals
     } catch (err) {
       console.error("Failed to complete mission:", err);
       alert(err.response?.data?.error || "Failed to complete challenge");
