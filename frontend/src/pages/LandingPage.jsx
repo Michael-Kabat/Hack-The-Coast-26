@@ -19,9 +19,7 @@ function LandingPage() {
         Complete 1 daily sustainability mission and track your impact.
       </p>
 
-      <div className="buttons">
-        <button className="btn secondary">Sign up</button>
-        <button className="btn secondary">Log in</button>
+      <div className="button">
         <button className="btn primary">Play</button>
       </div>
 
