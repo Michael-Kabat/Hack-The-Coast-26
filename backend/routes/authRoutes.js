@@ -17,8 +17,7 @@ router.post("/login", async (req, res) => {
 
     const todayStr = new Date().toDateString();
     const completedToday =
-      user.lastCompleted &&
-      user.lastCompleted.toDateString() === todayStr;
+      user.lastCompleted && user.lastCompleted.toDateString() === todayStr;
 
     res.json({
       id: user._id,
@@ -33,7 +32,7 @@ router.post("/login", async (req, res) => {
       // 🌱 Impact Engine
       totalCO2: user.totalCO2 || 0,
       totalWater: user.totalWater || 0,
-      totalWaste: user.totalWaste || 0
+      totalWaste: user.totalWaste || 0,
     });
   } catch (err) {
     console.error(err);
@@ -62,7 +61,7 @@ router.post("/register", async (req, res) => {
       // Ensure impact fields exist
       totalCO2: 0,
       totalWater: 0,
-      totalWaste: 0
+      totalWaste: 0,
     });
 
     res.status(201).json({
@@ -78,7 +77,7 @@ router.post("/register", async (req, res) => {
       // 🌱 Impact Engine
       totalCO2: 0,
       totalWater: 0,
-      totalWaste: 0
+      totalWaste: 0,
     });
   } catch (err) {
     console.error(err);
