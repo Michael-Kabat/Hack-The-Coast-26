@@ -1,54 +1,30 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";  
 import LandingPage from "./pages/LandingPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import {SignIn} from "./components/SignIn.jsx";
-import {UserStats} from "./components/UserStats.jsx";
-import {Tabs} from "./components/ui/tabs.jsx";
-import {TabsTrigger} from "./components/ui/tabs.jsx";
-import {TabsContent} from "./components/ui/tabs.jsx";
-import {TabsList} from "./components/ui/tabs.jsx";
-import {Leaderboard} from "./components/Leaderboard.jsx";
-import {DailyMission} from "./components/DailyMission.jsx";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";  
-import LeadershipPage from "./pages/LeadershipPage.jsx";
-
-
-
-// API helpers (example)
+import { SignIn } from "./components/SignIn.jsx";
+import { UserStats } from "./components/UserStats.jsx";
+import { Tabs, TabsTrigger, TabsContent, TabsList } from "./components/ui/tabs.jsx";
+import { Leaderboard } from "./components/Leaderboard.jsx";
+import { DailyMission } from "./components/DailyMission.jsx";
 import { completeDaily } from "./api/users";
 
 function App() {
-
-    return (
-    <Router>
-      <Routes>
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/leadership" element={<LeadershipPage />} />
-      </Routes>
-    </Router>
-  );
-  
-  // 🔑 Single source of truth
+  // 🔑 Hooks at the top
   const [user, setUser] = useState(null);
 
-  // 🔄 Restore session on refresh
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
+    if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
-  // ✅ Called after successful login/register
   const handleSignIn = (userData) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
-  // ✅ Backend-controlled mission completion
   const handleMissionComplete = async () => {
     if (!user) return;
-
     try {
       const res = await completeDaily(user.id);
       setUser(res.data);
@@ -59,67 +35,64 @@ function App() {
   };
 
   // 🚪 Not signed in
-  if (!user) {
-    return <SignIn onSignIn={handleSignIn} />;
-  }
+  if (!user) return <SignIn onSignIn={handleSignIn} />;
 
   return (
-    <div className="App">
-      {!user && (
-        <header className="App-header">
-        </header>
+    <Router>
+      <div className="App">
+        {/* Optional navigation buttons */}
+        <nav className="p-4 bg-green-100 flex gap-4 justify-center">
+          <Link to="/home"><button>Home</button></Link>
+          <Link to="/leadership"><button>Leadership</button></Link>
+        </nav>
 
-      {/* Main Content */}
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="space-y-8">
-          {/* User Stats */}
-          <UserStats
-            totalPoints={user.points}
-            streak={user.currentStreak}
-            completedMissions={user.totalCompleted}
-          />
+        {/* Page routes */}
+        <Routes>
+          <Route path="/home" element={
+            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+              <div className="space-y-8">
+                <UserStats
+                  totalPoints={user.points}
+                  streak={user.currentStreak}
+                  completedMissions={user.totalCompleted}
+                />
 
-          {/* Tabs */}
-          <Tabs defaultValue="mission" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="mission">Daily Mission</TabsTrigger>
-              <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
-            </TabsList>
+                <Tabs defaultValue="mission" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="mission">Daily Mission</TabsTrigger>
+                    <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
+                  </TabsList>
 
-            <TabsContent value="mission" className="space-y-4">
-              <DailyMission
-                onComplete={handleMissionComplete}
-                completedToday={user.completedToday}
-              />
-            </TabsContent>
+                  <TabsContent value="mission" className="space-y-4">
+                    <DailyMission
+                      onComplete={handleMissionComplete}
+                      completedToday={user.completedToday}
+                    />
+                  </TabsContent>
 
-            <TabsContent value="leaderboard" className="space-y-4">
-              <Leaderboard currentUserPoints={user.points} />
-            </TabsContent>
-          </Tabs>
-        </div>
-      </main>
+                  <TabsContent value="leaderboard" className="space-y-4">
+                    <Leaderboard currentUserPoints={user.points} />
+                  </TabsContent>
+                </Tabs>
+              </div>
+            </main>
+          }/>
 
-      {/* Footer */}
-      <footer className="mt-12 border-t bg-white/30 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <p className="text-center text-sm text-green-700">
-            🌍 Together, we can make a difference. Complete daily missions and
-            inspire others!
-          </p>
-        </div>
-      </footer>
-          <LandingPage/>
-        </header>
-      )}
+          <Route path="/leaderboard" element={<Leaderboard/>} />
 
-      {user && (
-        <main>
-          <h1>Welcome, {user} 🌱</h1>
-          <p>Your sustainability journey starts here.</p>
-        </main>
-      )}
-    </div>
+          <Route path="/" element={<LandingPage />} />
+        </Routes>
+
+        {/* Footer */}
+        <footer className="mt-12 border-t bg-white/30 backdrop-blur-sm">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <p className="text-center text-sm text-green-700">
+              🌍 Together, we can make a difference. Complete daily missions and inspire others!
+            </p>
+          </div>
+        </footer>
+      </div>
+    </Router>
   );
 }
 
