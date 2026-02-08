@@ -46,8 +46,6 @@ function App() {
     <div className="App">
       {!user && (
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-
           <LandingPage />
         </header>
       )}
