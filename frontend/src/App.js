@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import LandingPage  from "./pages/LandingPage.jsx";
+import LandingPage from "./pages/LandingPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import SignIn from "./components/SignIn.jsx";
+import { SignIn } from "./components/SignIn.jsx";
 
 // API helpers (example)
 import { completeDaily } from "./api/users";
@@ -48,49 +48,7 @@ function App() {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
 
-<<<<<<< HEAD
-      {/* Main Content */}
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="space-y-8">
-          {/* User Stats */}
-          <UserStats
-            totalPoints={user.points}
-            streak={user.currentStreak}
-            completedMissions={user.totalCompleted}
-          />
-
-          {/* Tabs */}
-          <Tabs defaultValue="mission" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="mission">Daily Mission</TabsTrigger>
-              <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="mission" className="space-y-4">
-              <DailyMission
-                onComplete={handleMissionComplete}
-                completedToday={user.completedToday}
-              />
-            </TabsContent>
-
-            <TabsContent value="leaderboard" className="space-y-4">
-              <Leaderboard currentUserPoints={user.points} />
-            </TabsContent>
-          </Tabs>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="mt-12 border-t bg-white/30 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <p className="text-center text-sm text-green-700">
-            🌍 Together, we can make a difference. Complete daily missions and
-            inspire others!
-          </p>
-        </div>
-      </footer>
-=======
-          <LandingPage/>
+          <LandingPage />
         </header>
       )}
 
@@ -100,10 +58,8 @@ function App() {
           <p>Your sustainability journey starts here.</p>
         </main>
       )}
->>>>>>> 4dedf536dc3fdbdfbff95c2d987690286cb09aee
     </div>
   );
 }
-
 
 export default App;
