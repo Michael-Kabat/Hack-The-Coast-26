@@ -1,6 +1,7 @@
-import logo from "./logo.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LandingPage  from "./pages/LandingPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import SignIn from "./components/SignIn.jsx";
 
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
