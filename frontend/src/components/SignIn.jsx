@@ -54,7 +54,7 @@ export default function SignIn({ onSignIn }) {
             >
               <Leaf className="size-9 text-white" />
             </motion.div>
-            <h1 className="text-5xl font-bold text-green-900">EcoQuest</h1>
+            <h1 className="text-5xl font-bold text-green-900">Protect the Coast</h1>
           </div>
 
           <div className="space-y-4">
