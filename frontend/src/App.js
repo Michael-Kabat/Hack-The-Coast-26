@@ -1,6 +1,6 @@
-import logo from "./logo.svg";
 import { useState } from "react";
-import LandingPage  from "./pages/LandingPage.jsx";
+//import LandingPage  from "./pages/LandingPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -9,9 +9,10 @@ function App() {
     <div className="App">
       {!user && (
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
 
-          <LandingPage/>
+
+          
+          <HomePage/>
         </header>
       )}
 
@@ -24,6 +25,7 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
 
