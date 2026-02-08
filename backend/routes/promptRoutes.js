@@ -21,7 +21,15 @@ router.get("/daily", (req, res) => {
     const index = hash % prompts.length;
     const dailyPrompt = prompts[index];
 
-    res.json(dailyPrompt);
+    res.json({
+        prompt: dailyPrompt.prompt,
+        points: dailyPrompt.points,
+        completedToday,
+        currentStreak: user.currentStreak,
+        longestStreak: user.longestStreak,
+        totalCompleted: user.totalCompleted,
+    });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to get daily prompt" });
