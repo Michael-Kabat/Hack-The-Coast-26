@@ -15,21 +15,23 @@ router.get("/daily", (req, res) => {
     // Use today's date as seed
     const today = new Date();
     const dayString = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
-    const hash = [...dayString].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const hash = [...dayString].reduce(
+      (acc, char) => acc + char.charCodeAt(0),
+      0,
+    );
 
     // Pick a prompt deterministically
     const index = hash % prompts.length;
     const dailyPrompt = prompts[index];
-
+    const completedToday = false;
     res.json({
-        prompt: dailyPrompt.prompt,
-        points: dailyPrompt.points,
-        completedToday,
-        co2_kg: dailyPrompt.co2_kg,
-        water_liters: dailyPrompt.water_liters,
-        waste_kg: dailyPrompt.waste_kg
+      prompt: dailyPrompt.prompt,
+      points: dailyPrompt.points,
+      completedToday,
+      co2_kg: dailyPrompt.co2_kg,
+      water_liters: dailyPrompt.water_liters,
+      waste_kg: dailyPrompt.waste_kg,
     });
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to get daily prompt" });

@@ -123,7 +123,7 @@ export function DailyMission({ onComplete }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Card className="border-2 border-green-500/20 bg-gradient-to-br from-green-50 to-emerald-50">
+      <Card className="border-2 border-green-500/20 bg-linear-to-br from-green-50 to-emerald-50">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { Leaf, User, Mail, ArrowRight, Sparkles } from "lucide-react";
+import { Leaf, User, Mail, ArrowRight, Sparkles, Lock } from "lucide-react";
 import { Button } from "./ui/button.jsx";
 import { Input } from "./ui/input.jsx";
 import { Label } from "./ui/label.jsx";
@@ -15,11 +15,17 @@ import {
 export function SignIn({ onSignIn }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (username.trim()) {
-      onSignIn(username.trim());
+      onSignIn({
+        username: username.trim(),
+        email: email.trim(),
+        password: password.trim(),
+        isRegister: false,
+      });
     }
   };
 
@@ -126,6 +132,23 @@ export function SignIn({ onSignIn }) {
                 </div>
 
                 <div className="space-y-2">
+                  <Label htmlFor="password" className="flex items-center gap-2">
+                    <Lock className="size-4" />{" "}
+                    {/* You can import Lock from lucide-react */}
+                    Password
+                  </Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="h-12 border-green-200 focus:border-green-500"
+                  />
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="email" className="flex items-center gap-2">
                     <Mail className="size-4" />
                     Email (optional)
@@ -141,9 +164,17 @@ export function SignIn({ onSignIn }) {
                 </div>
 
                 <Button
-                  type="submit"
+                  type="button"
+                  onClick={() =>
+                    onSignIn({
+                      username: "GreenWarrior",
+                      email: "test@gmail.com",
+                      password: "test123",
+                      isRegister: true,
+                    })
+                  }
                   className="w-full h-12 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-lg"
-                  disabled={!username.trim()}
+                  disabled={!username.trim() || !password}
                 >
                   Start Your Journey
                   <ArrowRight className="ml-2 size-5" />
@@ -164,16 +195,28 @@ export function SignIn({ onSignIn }) {
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={() => onSignIn("GreenWarrior")}
-                    className="h-11"
+                    onClick={() =>
+                      onSignIn({
+                        username: "GreenWarrior",
+                        email: "",
+                        password: "",
+                        isRegister: false,
+                      })
+                    }
                   >
-                    <span className="mr-2">🌿</span>
-                    Guest
+                    🌿 Guest
                   </Button>
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={() => onSignIn("EcoHero")}
+                    onClick={() =>
+                      onSignIn({
+                        username: "EcoHero",
+                        email: "",
+                        password: "",
+                        isRegister: false,
+                      })
+                    }
                     className="h-11"
                   >
                     <span className="mr-2">⚡</span>
