@@ -413,59 +413,6 @@ export function StandaloneSignIn({
       `}</style>
 
       <div className="signin-wrapper">
-        {/* Left Side - Branding */}
-        <div className="branding-section">
-          <div className="branding-header">
-            <div className="brand-icon">
-              <svg
-                className="icon-lg"
-                style={{ color: "white" }}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                />
-              </svg>
-            </div>
-            <h1 className="brand-name">{brandName}</h1>
-          </div>
-
-          <div>
-            <h2 className="branding-title">
-              Save the Planet,
-              <br />
-              One Mission at a Time
-            </h2>
-            <p className="branding-description">
-              Join thousands of eco-warriors completing daily environmental
-              challenges, earning rewards, and making a real difference.
-            </p>
-          </div>
-
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">🎯</div>
-              <div className="feature-label">Daily Missions</div>
-              <div className="feature-desc">New challenges every day</div>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">🏆</div>
-              <div className="feature-label">Compete</div>
-              <div className="feature-desc">Global leaderboard</div>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">🔥</div>
-              <div className="feature-label">Build Streaks</div>
-              <div className="feature-desc">Stay consistent</div>
-            </div>
-          </div>
-        </div>
-
         {/* Right Side - Sign In Form */}
         <div className="form-section">
           <div className="form-card">
