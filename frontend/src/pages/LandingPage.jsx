@@ -1,7 +1,7 @@
 // App.jsx
 import React from "react";
 import "../App.css";
-import logo from "../save-the-planet.png"; // Make sure the image is in the src folder or adjust path
+import logo from "../save-the-planet.png";
 
 function LandingPage() {
   return (

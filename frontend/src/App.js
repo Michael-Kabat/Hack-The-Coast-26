@@ -1,15 +1,7 @@
 import { useState, useEffect } from "react";
-import { Leaf } from "lucide-react";
-import { SignIn } from "./components/SignIn.jsx";
-import { DailyMission } from "./components/DailyMission.jsx";
-import { Leaderboard } from "./components/Leaderboard.jsx";
-import { UserStats } from "./components/UserStats.jsx";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "./components/ui/tabs.jsx";
+import LandingPage  from "./pages/LandingPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import SignIn from "./components/SignIn.jsx";
 
 // API helpers (example)
 import { completeDaily } from "./api/users";
@@ -51,24 +43,12 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
-      {/* Header */}
-      <header className="border-b bg-white/50 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <div className="flex size-12 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
-              <Leaf className="size-7 text-white" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-green-900">EcoQuest</h1>
-              <p className="text-sm text-green-700">
-                Save the planet, one mission at a time
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="App">
+      {!user && (
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
 
+<<<<<<< HEAD
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="space-y-8">
@@ -109,8 +89,21 @@ function App() {
           </p>
         </div>
       </footer>
+=======
+          <LandingPage/>
+        </header>
+      )}
+
+      {user && (
+        <main>
+          <h1>Welcome, {user} 🌱</h1>
+          <p>Your sustainability journey starts here.</p>
+        </main>
+      )}
+>>>>>>> 4dedf536dc3fdbdfbff95c2d987690286cb09aee
     </div>
   );
 }
+
 
 export default App;
