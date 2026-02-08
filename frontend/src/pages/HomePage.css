@@ -21,11 +21,12 @@ body, html {
   align-items: center;
   max-width: 1200px;
   margin-bottom: 2rem;
+  color: #2a6f2b;
 }
 
 .home-header h1 {
   font-size: 2.2rem;
-  color: #1b4332;
+  color: #2a6f2b;
 }
 
 .btn-leaderboard {
@@ -149,3 +150,4 @@ body, html {
   padding: 5rem;
   color: #1b4332;
 }
+

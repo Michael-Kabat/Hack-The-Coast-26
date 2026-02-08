@@ -9,6 +9,7 @@
   align-items: center;
   gap: 2rem;
   font-family: "Inter", sans-serif;
+  width: 100%;
 }
 
 .leaderboard-page__header {
@@ -129,3 +130,5 @@
   align-items: center;
   font-size: 1.25rem;
 }
+
+

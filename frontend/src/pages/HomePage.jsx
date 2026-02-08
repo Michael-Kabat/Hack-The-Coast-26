@@ -9,19 +9,28 @@ export default function HomePage({ user, dailyPrompt, onComplete }) {
   return (
     <div className="home-page">
       <header className="home-header">
-        <h1>EcoQuest</h1>
+        <h1>Protect the Coast</h1>
         <button className="btn-leaderboard" onClick={() => navigate("/leaderboard")}>
           Global Leaderboard
         </button>
       </header>
+
 
       <main className="prompt-card">
         <p className="prompt-date">
           {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
         </p>
 
+        <div class= "challenge">
+            <h2>Today's Challenge:</h2>
+        </div>
+
         <h2 className="prompt-text">{dailyPrompt.prompt}</h2>
 
+
+        <div class= "impact">
+            <h2>your impact helped lower:</h2>
+        </div>
         <div className="impact-section">
           <div className="impact-card">🌿 {dailyPrompt.co2_kg} kg CO₂</div>
           <div className="impact-card">💧 {dailyPrompt.water_liters} L water</div>
@@ -33,7 +42,7 @@ export default function HomePage({ user, dailyPrompt, onComplete }) {
           disabled={user.completedToday}
           onClick={onComplete}
         >
-          {user.completedToday ? "Completed Today" : "Mark Complete"}
+          {user.completedToday ? "Thanks for helping the environment!" : "Mark Complete"}
         </button>
       </main>
 

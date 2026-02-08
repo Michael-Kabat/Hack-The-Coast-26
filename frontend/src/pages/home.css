@@ -28,8 +28,8 @@ body, html {
 }
 
 .home-header h1 {
-  font-size: 2.5rem;
-  color: #1b4332;
+  font-size: 2.2rem;
+  color: #40916c;
 }
 
 .btn-leaderboard {
@@ -156,3 +156,27 @@ margin-top: 2rem; /* adds breathing room between prompt and stats */
   padding: 5rem;
   color: #1b4332;
 }
+
+.challenge{
+    color: #40916c;
+    font-size: 10px;
+    margin-bottom: 15px;
+
+}
+
+.impact{
+    color: #40916c;
+    font-size: 10px;
+    margin-bottom: 30px;
+}
+
+.logo img{
+  margin-bottom: 20px;
+  margin-left: 20px;
+  align-items: left;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+
