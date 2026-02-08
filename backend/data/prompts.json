@@ -1,0 +1,29 @@
+{
+    "prompts": [
+        {"prompt": "Turn off all unused lights in your home today", "points": 10},
+        {"prompt": "Unplug one device that uses standby power", "points": 5},
+        {"prompt": "Take public transport, bike, or walk for at least one trip today", "points": 10},
+        {"prompt": "Set your thermostat 2°C lower (in winter) or higher (in summer) for today", "points": 10},
+        {"prompt": "Recycle all eligible waste correctly today", "points": 10},
+        {"prompt": "Bring a reusable bag to the store", "points": 5},
+        {"prompt": "Avoid buying single-use plastic items today", "points": 10},
+        {"prompt": "Compost at least one food item", "points": 5},
+        {"prompt": "Pick up five pieces of garbage in your local area", "points": 10},
+        {"prompt": "Plant one tree or shrub, or water an existing plant", "points": 15},
+        {"prompt": "Observe and record three different birds or insects near you", "points": 10},
+        {"prompt": "Create a small habitat for local wildlife (like a bird feeder)", "points": 10},
+        {"prompt": "Turn off the tap while brushing your teeth today", "points": 5},
+        {"prompt": "Take a shower under five minutes", "points": 10},
+        {"prompt": "Reuse water from cooking or washing plants", "points": 5},
+        {"prompt": "Check for leaky faucets and report/fix them", "points": 10},
+        {"prompt": "Read one article about local environmental issues", "points": 5},
+        {"prompt": "Share an environmental tip on social media", "points": 5},
+        {"prompt": "Watch a short documentary on climate change or biodiversity", "points": 10},
+        {"prompt": "Invite a friend to play the game", "points": 10},
+        {"prompt": "Create a mini poster or infographic about reducing carbon footprint", "points": 10},
+        {"prompt": "Organize or join a community clean-up", "points": 50},
+        {"prompt": "Start a zero-waste challenge in your household for the day", "points": 10},
+        {"prompt": "Coordinate a carpool with friends or colleagues", "points": 10},
+        {"prompt": "Plant a small garden with your neighbors or roommates", "points": 15}
+    ]
+}
