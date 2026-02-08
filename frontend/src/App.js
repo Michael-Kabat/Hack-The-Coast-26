@@ -9,12 +9,25 @@ import {TabsContent} from "./components/ui/tabs.jsx";
 import {TabsList} from "./components/ui/tabs.jsx";
 import {Leaderboard} from "./components/Leaderboard.jsx";
 import {DailyMission} from "./components/DailyMission.jsx";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";  
+import LeadershipPage from "./pages/LeadershipPage.jsx";
+
 
 
 // API helpers (example)
 import { completeDaily } from "./api/users";
 
 function App() {
+
+    return (
+    <Router>
+      <Routes>
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/leadership" element={<LeadershipPage />} />
+      </Routes>
+    </Router>
+  );
+  
   // 🔑 Single source of truth
   const [user, setUser] = useState(null);
 
@@ -54,6 +67,7 @@ function App() {
     <div className="App">
       {!user && (
         <header className="App-header">
+        </header>
 
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
